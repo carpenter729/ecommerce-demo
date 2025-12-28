@@ -1,5 +1,5 @@
 # Spring Boot 全栈电商系统 (Ecommerce Demo)
-
+学号：202330451521 姓名：邱岳林 班级：23级网络工程
 [![Java](https://img.shields.io/badge/Java-17-orange)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-green)](https://spring.io/projects/spring-boot)
 [![Docker](https://img.shields.io/badge/Docker-Enabled-blue)](https://www.docker.com/)
