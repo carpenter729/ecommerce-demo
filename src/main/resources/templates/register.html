@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+  <meta charset="UTF-8">
+  <title>用户注册</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center" style="height: 100vh;">
+
+<div class="card shadow p-4" style="width: 400px;">
+  <h3 class="text-center mb-4">📝 新用户注册</h3>
+
+  <!-- 错误提示（例如用户名已存在） -->
+  <div th:if="${registerError}" class="alert alert-danger" th:text="${registerError}"></div>
+
+  <form action="/register" method="post">
+    <!-- CSRF Token (Spring Security 必须) -->
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+    <div class="mb-3">
+      <label class="form-label">用户名</label>
+      <label>
+        <input type="text" name="username" class="form-control" placeholder="设置您的用户名" required>
+      </label>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">密码</label>
+      <label>
+        <input type="password" name="password" class="form-control" placeholder="设置您的密码" required>
+      </label>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">电子邮箱</label>
+      <label>
+        <input type="email" name="email" class="form-control" placeholder="example@mail.com" required>
+      </label>
+    </div>
+    <button type="submit" class="btn btn-success w-100">立即注册</button>
+  </form>
+
+  <div class="text-center mt-3">
+    <a href="/login" class="text-decoration-none">已有账号？去登录</a>
+  </div>
+</div>
+
+</body>
+</html>

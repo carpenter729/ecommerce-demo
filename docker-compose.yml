@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+
+  # 1. 数据库服务
+  mysql-db:
+    image: mysql:8.0
+    container_name: ecommerce-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # 数据库密码是 root
+      MYSQL_DATABASE: ecommerce_db
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+
+  # 2. Spring Boot 应用
+  app:
+    build: .
+    container_name: ecommerce-app
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+      - mailhog
+    # environment 必须放在 app 这一级
+    environment:
+      # 告诉 Java 数据库在哪里 (注意 host 是 mysql-db)
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/ecommerce_db?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+      # 用户名
+      SPRING_DATASOURCE_USERNAME: root
+      # 密码 (必须和上面 mysql-db 里的 MYSQL_ROOT_PASSWORD 一致)
+      SPRING_DATASOURCE_PASSWORD: root
+      # 自动建表 (第一次运行必须加这个，不然会报表不存在)
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # 邮件配置
+      SPRING_MAIL_HOST: mailhog
+      SPRING_MAIL_PORT: 1025
+
+  # 3. 邮件服务
+  mailhog:
+    image: mailhog/mailhog
+    container_name: ecommerce-mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
